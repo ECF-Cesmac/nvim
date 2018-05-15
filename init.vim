@@ -5,13 +5,7 @@ call plug#begin('~/.config/nvim/plugged')
     " Auto complete
     Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
     "File explorer
-    Plug 'scrooloose/nerdtree', {'on':  'NERDTreeToggle'}
-    " Linting
-    Plug 'w0rp/ale'
-    " javascript language 
-    Plug 'carlitux/deoplete-ternjs'
-    Plug 'ternjs/tern_for_vim'
-    Plug 'jiangmiao/auto-pairs'
+    Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
     " status bar
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
@@ -19,6 +13,15 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'zefei/vim-wintabs'
     " emmet
     Plug 'mattn/emmet-vim'
+    " auto-close
+    Plug 'jiangmiao/auto-pairs'
+    " Indentation
+    Plug 'Yggdroot/indentLine'
+    Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+    Plug 'roxma/LanguageServer-php-neovim', {'do': 'composer install && composer run-script parse-stubs'}
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -61,24 +64,6 @@ map <C-l> <C-w>l
 map <F9> :bnext<CR>
 map <F8> :bprev<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Deoplete
-"
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_smart_case = 1
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Deoplete-ternjs
-"
-" Use tern_for_vim.
-let g:tern#command = ["tern"]
-let g:tern#arguments = ["--persistent"]
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Ale
-"
-let g:ale_fixers = {
- \'javascript': ['eslint']
- \}
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree
 "
 map <C-n> :NERDTreeToggle<CR>
@@ -91,3 +76,21 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline_theme = "papercolor"
 let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#show_tab_nr = 1
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" IndentLine
+"
+let g:indentLine_char = "│"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Deoplete
+"
+let g:deoplete#enable_at_startup = 1
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Language Client Neovim
+"
+let g:LanguageClient_serverCommands = {
+    \'php' : [
+    \'php',
+    \$HOME . '/.config/nvim/plugged/LanguageServer-php-neovim/vendor/bin/php-language-server.php'
+    \]
+\}
+let g:LanguageClient_autoStart = 1
