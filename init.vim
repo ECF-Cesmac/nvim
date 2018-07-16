@@ -6,6 +6,8 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
     "File explorer
     Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+    "Code commenter
+    Plug 'scrooloose/nerdcommenter'
     " status bar
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
@@ -22,6 +24,15 @@ call plug#begin('~/.config/nvim/plugged')
     \ 'do': 'bash install.sh',
     \ }
     Plug 'roxma/LanguageServer-php-neovim', {'do': 'composer install && composer run-script parse-stubs'}
+    "
+    Plug 'junegunn/fzf'
+    "
+    " typescript
+    Plug 'leafgarland/typescript-vim'
+    Plug 'tpope/vim-surround'
+    "
+    Plug 'pangloss/vim-javascript'
+
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -79,18 +90,31 @@ let g:airline#extensions#tabline#show_tab_nr = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " IndentLine
 "
-let g:indentLine_char = "│"
+"let g:indentLine_char = "│"
+"let g:indentLine_concealcursor = 'inc'
+let g:indentLine_conceallevel = 0
+"set conceallevel=0
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Deoplete
 "
 let g:deoplete#enable_at_startup = 1
+let g:neosnippet#enable_completed_snippet = 1
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Javascript Language
+"
+au filetype javascript set tabstop=2 shiftwidth=2 softtabstop=2
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Language Client Neovim
 "
 let g:LanguageClient_serverCommands = {
-    \'php' : [
-    \'php',
+    \'javascript': ['node',
+    \$HOME . '/.npm-global/bin/javascript-typescript-stdio'
+    \],
+    \'php': [ 'php',
     \$HOME . '/.config/nvim/plugged/LanguageServer-php-neovim/vendor/bin/php-language-server.php'
     \]
 \}
 let g:LanguageClient_autoStart = 1
+
+set completefunc=LanguageClient#complete
+set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
